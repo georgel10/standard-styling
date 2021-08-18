@@ -1,0 +1,341 @@
+html {
+  height: 100%;
+
+  body {
+    height: 100%;
+  }
+}
+html,
+body,
+p,
+ul,
+li,
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 0;
+  padding: 0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// Fonts and font metrics
+///////////////////////////////////////////////////////////////////////////////
+
+@font-face {
+  font-family: "darby-sans";
+  src: url("https://hakkasangroup.com/wp-content/themes/enfold-child/fonts/DarbySansPoster-Regular-Web.woff2")
+      format("woff2"),
+    url("https://hakkasangroup.com/wp-content/themes/enfold-child/fonts/DarbySansPoster-Regular-Web.woff")
+      format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  font-display: swap;
+}
+// Font metrics are required for finding the baseline of text, for aligning
+// with the vertical rhythm.  This baseline factor varies for different fonts.
+@mixin aligned-darby-sans($grid-unit) {
+  font-family: "darby-sans";
+  // Enter the font metric values here to compute it for your font.
+  // Try https://opentype.js.org/font-inspector.html to get these metrics,
+  // or any other tool that can read these numbers from the font's header. */
+  $emsize: 1000; // In "general" font info.
+  // hhea:ascender (In "OS/2" font info.)
+  $ascender: 771;
+  // abs(hhea:descender)
+  // This should be a positive number.  Enter the absolute value of the
+  // descender metric, which should naturally be negative.
+  $descender: 229;
+  @include align-with-baseline($emsize, $ascender, $descender, $grid-unit);
+}
+
+@font-face {
+  font-family: "open-sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local("Open Sans Regular"), local("OpenSans-Regular"),
+    url(https://fonts.gstatic.com/s/opensans/v17/mem8YaGs126MiZpBA-UFVZ0bf8pkAg.woff2)
+      format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+@mixin aligned-open-sans($grid-unit) {
+  font-family: "open-sans";
+  $emsize: 2048;
+  $ascender: 2189;
+  $descender: 600;
+  @include align-with-baseline($emsize, $ascender, $descender, $grid-unit);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// Vertical rhythm
+///////////////////////////////////////////////////////////////////////////////
+
+@mixin align-with-baseline($emsize, $ascender, $descender, $grid-unit) {
+  $content-height: calc(#{$ascender} + #{$descender});
+  $content-height-scaled: calc(#{$content-height} * 1em / #{$emsize});
+  $descender-scaled: calc(#{$descender} * 1em / #{$emsize});
+  $bottom-overflow: calc((#{$content-height-scaled} - #{$grid-unit}) / 2);
+  $baseline-correction: calc(#{$descender-scaled} - #{$bottom-overflow});
+
+  transform: translateY(#{$baseline-correction});
+}
+
+html {
+  font-size: $font-size;
+  line-height: $grid-unit;
+  padding: $grid-unit;
+
+  .content {
+    overflow: hidden;
+    margin-right: -$grid-unit;
+    padding-right: $grid-unit;
+    margin-left: -$grid-unit;
+    padding-left: $grid-unit;
+  }
+
+  p,
+  ul {
+    @include aligned-open-sans($grid-unit);
+  }
+  ul {
+    list-style-type: none;
+  }
+  p + p {
+    padding-top: $grid-unit;
+  }
+
+  h1,
+  h2,
+  h3 {
+    padding-top: 2 * $grid-unit;
+    padding-bottom: $grid-unit;
+    @include aligned-darby-sans($grid-unit);
+    font-weight: 500;
+  }
+  .button {
+    @include aligned-open-sans($grid-unit);
+  }
+
+  header {
+    height: $grid-unit;
+    margin-top: calc(-1 * #{$grid-unit});
+    margin-left: calc(-1 * #{$grid-unit});
+    margin-right: calc(-1 * #{$grid-unit});
+    padding-top: $grid-unit;
+    padding-bottom: $grid-unit;
+    padding-left: $grid-unit;
+    padding-right: $grid-unit;
+    mat-icon {
+      // Specified in px because it's "24px" tall in the Angular Material theme.
+      margin-top: -2px;
+    }
+    svg {
+      height: calc(1.5 * #{$grid-unit});
+      margin-top: calc(-0.5 * #{$grid-unit});
+    }
+  }
+  nav {
+    ul:first-child {
+      li {
+        font-size: 2rem;
+        box-sizing: border-box;
+        padding-top: $grid-unit;
+        padding-bottom: $grid-unit;
+        padding-right: 1.25rem;
+        @include aligned-darby-sans($grid-unit);
+        a {
+          .description {
+            display: block;
+            font-size: 0.875rem;
+            @include aligned-open-sans($grid-unit);
+          }
+        }
+      }
+    }
+    ul:last-child {
+      li {
+        display: inline-block;
+        box-sizing: border-box;
+        padding-right: 1.25rem;
+        padding-bottom: $grid-unit;
+      }
+    }
+  }
+
+  footer.fd_footer_wrap {
+    // Expand to fill the page margins.
+    width: 100vw;
+    margin-left: -$grid-unit;
+  }
+
+  .grid-line {
+    $border-height: 1px;
+    height: calc(#{$grid-unit} - #{$border-height});
+    border-bottom: $border-height dashed black;
+  }
+  .vertical-grid-line {
+    $border-height: 1px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    border-left: $border-height dashed black;
+  }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// Styles that don't reference layout dimensions
+///////////////////////////////////////////////////////////////////////////////
+
+html {
+  color: $color-nightlife-1;
+  background-color: $color-hakkasan-group-light-blue-7;
+
+  body {
+    vertical-align: baseline;
+  }
+
+  a:link {
+    color: $color-nightlife-1;
+    text-decoration: none;
+  }
+  a:visited {
+    color: $color-nightlife-1;
+    text-decoration: none;
+  }
+  a:hover {
+    color: $color-nightlife-1;
+    text-decoration: underline;
+  }
+  a:active {
+    color: $color-nightlife-1;
+    text-decoration: underline;
+  }
+
+  p {
+    text-align: justify;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    margin: 0;
+    white-space: nowrap;
+  }
+  h1 {
+    font-size: 2.25rem;
+  }
+  h2 {
+    font-size: 2rem;
+  }
+  h3 {
+    font-size: 1.5rem;
+  }
+  .button {
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+
+  header {
+    display: flex;
+    svg {
+      display: block;
+      margin: auto;
+      fill: $color-nightlife-3;
+    }
+  }
+  nav {
+    transition: height 0.5s;
+    height: 0;
+    overflow: hidden;
+    ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      white-space: nowrap;
+      margin: 0;
+      padding: 0;
+    }
+    ul:first-child {
+      margin: 0;
+      padding: $grid-unit 0;
+      li {
+        flex: 1 0 50%;
+        .description {
+          white-space: normal;
+        }
+      }
+    }
+    ul:last-child {
+      padding-bottom: 2 * $grid-unit;
+    }
+  }
+
+  .content {
+    background-color: $color-nightlife-6;
+    padding-bottom: 2 * $grid-unit;
+  }
+
+  #grid-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+  #grid-overlay.visible {
+    opacity: 0.25;
+  }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// Responsive variations
+///////////////////////////////////////////////////////////////////////////////
+
+// Defined by Angular Material
+// https://github.com/angular/components/blob/master/src/cdk/layout/breakpoints.ts
+
+// XSmall
+@media only screen and (max-width: 599.98px) {
+  html {
+    // Display nav links as one column.
+    nav {
+      ul:first-child {
+        li {
+          flex: 1 0 100%;
+          a {
+            .description {
+              display: none;
+            }
+          }
+        }
+      }
+      ul:last-child {
+        li {
+          display: block;
+        }
+      }
+    }
+  }
+}
+// Small
+@media only screen and (min-width: 600px) and (max-width: 959.98px) {
+}
+// Medium
+@media only screen and (min-width: 960px) and (max-width: 1279.98px) {
+}
+// Large
+@media only screen and (min-width: 1280px) and (max-width: 1919.98px) {
+}
+// XLarge
+@media only screen and (min-width: 1920px) {
+}

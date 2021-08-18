@@ -1,0 +1,18 @@
+{
+  "name": "@venue-driver/standard-styling",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^12.1.0",
+    "@angular/core": "^12.1.0"
+  },
+  "dependencies": {
+    "tslib": "^2.2.0"
+  },
+  "main": "bundles/venue-driver-standard-styling.umd.js",
+  "module": "fesm2015/venue-driver-standard-styling.js",
+  "es2015": "fesm2015/venue-driver-standard-styling.js",
+  "esm2015": "esm2015/venue-driver-standard-styling.js",
+  "fesm2015": "fesm2015/venue-driver-standard-styling.js",
+  "typings": "venue-driver-standard-styling.d.ts",
+  "sideEffects": false
+}
